@@ -21,13 +21,16 @@ class Reader extends AbstractBase
         $this->init();
         return $this->headers;
     }
-    
+
+    /**
+     * @return bool|Row
+     */
     public function getRow()
     {
         $this->init();
         if (($row = fgetcsv($this->handle, 1000, $this->delimiter, $this->enclosure)) !== false) {
             $this->line++;
-            return $this->headers ? array_combine($this->headers, $row) : $row;
+            return $this->headers ? new Row($row, $this->headers) : new Row($row);
         } else {
             return false;
         }
@@ -53,6 +56,6 @@ class Reader extends AbstractBase
             return;
         }
         $this->init    = true;
-        $this->headers = $this->headersInFirstRow === true ? $this->getRow() : false;
+        $this->headers = $this->headersInFirstRow === true ? $this->getRow()->getData(false) : false;
     }
 }
