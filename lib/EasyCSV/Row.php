@@ -37,8 +37,8 @@ class Row {
             $end = ord($end) - 65;
         }
 
-        $data = array_slice($this->data, $start, $end - $start);
-        $headers = ($this->headers && $withHeaders) ? array_slice($this->headers, $start, $end - $start) : null;
+        $data = array_slice($this->data, $start, $end - $start + 1);
+        $headers = ($this->headers && $withHeaders) ? array_slice($this->headers, $start, $end - $start + 1) : null;
 
         return $headers ? array_combine($headers, $data) : $data;
     }
